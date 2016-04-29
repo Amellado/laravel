@@ -1,45 +1,12 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>Laravel</title>
+@extends('app')
 
-        <link href="https://fonts.googleapis.com/css?family=Lato:100" rel="stylesheet" type="text/css">
+@section('content')
+    <h1>Examples for fingerprintToken.js</h1>
+    <hr>
+    <p class="lead">This page contains two example uses of fingerprintToken.js, which is the result of the thesis "SISTEMAS DE AUTENTIFICACIÓN EN SISTEMAS WEB BASADOS EN BROWSER FINGER PRINTING "</p>
+    <p>The first example is about the user login function, it's designed to upgrade a username-password credential to a username-password-fingerprint one. The fingerprint used here is a canvas based one.</p>
 
-        <style>
-            html, body {
-                height: 100%;
-            }
+    <p>The second example covers the use of the short term authentication between views, used to prevent session_hijack attacks and such.</p>
 
-            body {
-                margin: 0;
-                padding: 0;
-                width: 100%;
-                display: table;
-                font-weight: 100;
-                font-family: 'Lato';
-            }
 
-            .container {
-                text-align: center;
-                display: table-cell;
-                vertical-align: middle;
-            }
-
-            .content {
-                text-align: center;
-                display: inline-block;
-            }
-
-            .title {
-                font-size: 96px;
-            }
-        </style>
-    </head>
-    <body>
-        <div class="container">
-            <div class="content">
-                <div class="title">Laravel 5 o no?</div>
-            </div>
-        </div>
-    </body>
-</html>
+@stop

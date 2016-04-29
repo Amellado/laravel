@@ -16,11 +16,12 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="">BrowserPrint Lab</a>
+        <a class="navbar-brand" href="/">BrowserPrint Lab</a>
       </div>
       <div id="navbar" class="collapse navbar-collapse">
         <ul class="nav navbar-nav">
-          <li><a href="/login">Clean Canvas Fingerprint</a></li>
+          <li id="example1"><a href="/login">Example 1</a></li>
+          <li id="example2"><a href="/viewChange">Example 2</a></li>
         </ul>
       </div><!--/.nav-collapse -->
     </div>
@@ -30,5 +31,6 @@
 	</div>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
 	<script src="https://code.jquery.com/jquery-1.12.3.min.js" integrity="sha256-aaODHAgvwQW1bFOGXMeX+pC4PZIPsvn2h1sArYOhgXQ=" crossorigin="anonymous"></script>
+  @yield('scripts')
 </body>
 </html>
