@@ -9,6 +9,7 @@ class User extends Model
     protected $fillable = [
     	'name',
     	'password',
+		'fingerprint',
     	'userAgent'
 
     ];

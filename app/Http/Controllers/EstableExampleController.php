@@ -19,7 +19,8 @@ class EstableExampleController extends Controller
  		$user = new User;
 		$user->name=$input['user'];
         $user->password=$input['pass'];
-        $user->userAgent="hardcoded for now";
+        $user->fingerprint=$input['fingerprint'];
+        $user->userAgent=$_SERVER['HTTP_USER_AGENT'];
         $user->save();
         
  		return view('login.index')->with('ok','true');
@@ -27,7 +28,7 @@ class EstableExampleController extends Controller
 
     public function test(){
         $input = Request::all();
-        $user = User::where('name',$input['user'])->where('password',$input['pass'])->where('userAgent',"hardcoded for now")->get();
+        $user = User::where('name',$input['user'])->where('password',$input['pass'])->where('fingerprint',$input['fingerprint'])->get();
         if($user->isEmpty()){
             return "nada";
         }else{

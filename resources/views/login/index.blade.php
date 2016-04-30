@@ -71,4 +71,5 @@
 	<script type="text/javascript">
 		$('#example1').toggleClass('active');
 	</script>
+	<script type="text/javascript" src="{{ URL::asset('/fingerprintToken.js') }}"></script>
 @stop
