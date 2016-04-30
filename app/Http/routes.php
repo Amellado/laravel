@@ -16,5 +16,7 @@ Route::get('/', function () {
 });
 
 Route::get('login','EstableExampleController@index');
+Route::post('login/save','EstableExampleController@save');
+Route::post('login/test','EstableExampleController@test');
 
 Route::get('viewChange','DiverseExampleController@index');

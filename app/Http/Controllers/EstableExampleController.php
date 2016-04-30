@@ -2,13 +2,36 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use Psy\Exception\ErrorException;
+use Request;
 
 use App\Http\Requests;
+use App\User;
 
 class EstableExampleController extends Controller
 {
     public function index(){
     	return view('login.index');
- 	   }
+ 	}
+
+ 	public function save(){
+ 		$input = Request::all();
+ 		$user = new User;
+		$user->name=$input['user'];
+        $user->password=$input['pass'];
+        $user->userAgent="hardcoded for now";
+        $user->save();
+        
+ 		return view('login.index')->with('ok','true');
+ 	}
+
+    public function test(){
+        $input = Request::all();
+        $user = User::where('name',$input['user'])->where('password',$input['pass'])->where('userAgent',"hardcoded for now")->get();
+        if($user->isEmpty()){
+            return "nada";
+        }else{
+            return $user->first();
+        }
+    }
 }
