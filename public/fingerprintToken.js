@@ -13,6 +13,7 @@
 var formIdentifier = "user";
 var formPassword = "pass";
 var formFingerprint = "fingerprint";
+/*///////////////////////////////////////SHA1 IMPLEMENTATION//////////////////////////////////////*/
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  */
 /*  SHA-1 implementation in JavaScript                  (c) Chris Veness 2002-2014 / MIT Licence  */
 /*                                                                                                */
@@ -169,12 +170,84 @@ if (typeof String.prototype.utf8Decode == 'undefined') {
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  */
 if (typeof module != 'undefined' && module.exports) module.exports = Sha1; // CommonJs export
 if (typeof define == 'function' && define.amd) define([], function() { return Sha1; }); // AMD
+/*//////////////////////////////////SHA1 IMPLEMENTATION -- END////////////////////////////////////*/
 
 $('form').submit(function() {
-    var hashIdentifier = $("[name='"+formIdentifier+"']").val();
-    if(hashIdentifier == ""){
-        var hashIdentifier = $("[name='"+formIdentifier+"':last]").val();
+    //check if the form has the needed values (this method could be fired by an unrelated form)
+    if(!$(this).find("[name='"+formIdentifier+"']").length || !$(this).find("[name='"+formPassword+"']").length){
+        console.log('adding fingerprint to form aborted because identifier or password fields are missing.');
+        return false;
     }
-    $('form').append('<input type="hidden" name="'+formFingerprint+'" value="'+hashIdentifier+'">');
-    return false;
+    //retrieving values
+    var hashIdentifier = Sha1.hash($(this).find("[name='"+formIdentifier+"']").val());
+    var hashPassword = Sha1.hash($(this).find("[name='"+formPassword+"']").val());
+    /*----this example only */
+    //prolema si el original está vacío.
+    $(this).find("[name='"+formIdentifier+"']").val(hashIdentifier);
+    $(this).find("[name='"+formPassword+"']").val(hashPassword);
+    /*---------------------*/
+    //create canvas
+    var canvas = document.createElement('canvas');
+    canvas.height = 200;
+    canvas.width=500;
+    var ctx = canvas.getContext('2d');
+    ctx.textBaseline = "top";
+    // the most common type
+    ctx.font = "15px Arial";
+    ctx.textBaseline = "alphabetic";
+    //colors(change if needed)
+    var grad=ctx.createLinearGradient(0,5,650,5);
+    grad.addColorStop(0,"rgba(0, 0, 200, 0.1)");
+    grad.addColorStop(0.5,"rgba(255, 0, 0, 0.7)");
+    grad.addColorStop(1,"rgba(111, 204, 60, 0.1)");
+    var grad2=ctx.createLinearGradient(0,10,500,10);
+    grad2.addColorStop(0,"rgba(0, 0, 200, 0.1)");
+    grad2.addColorStop(0.5,"rgba(255, 0, 255, 0.9)");
+    grad2.addColorStop(1,"rgba(111, 204, 60, 0.3)");
+    var grad3=ctx.createLinearGradient(0,0,500,20);
+    grad3.addColorStop(0,"rgba(0, 200, 200, 1)");
+    grad3.addColorStop(0.5,"rgba(255, 0, 0, 0.5)");
+    grad3.addColorStop(1,"rgba(111, 204, 255, 0.1)");
+    var grad4=ctx.createLinearGradient(2,15,500,15);
+    grad4.addColorStop(0,"rgba(0, 255,0, 1)");
+    grad4.addColorStop(0.5,"rgba(255, 0, 0, 1)");
+    grad4.addColorStop(1,"rgba(0, 0, 255, 1)");
+    var grad5=ctx.createLinearGradient(2,15,500,15);
+    grad5.addColorStop(0,"rgba(0, 255,0, 0.3)");
+    grad5.addColorStop(0.5,"rgba(255, 0, 0,0.3)");
+    grad5.addColorStop(1,"rgba(0, 0, 255, 0.3)");
+    ctx.fillStyle = grad4;
+    ctx.fillRect(0,1,62,200);
+    ctx.fillRect(0,30,300,200);
+    ctx.fillStyle = grad;
+    ctx.fillRect(40,30,500,200);
+    ctx.fillStyle = grad2;
+    ctx.fillRect(10,10,700,150);
+    ctx.fillStyle = grad3;
+    ctx.fillRect(0,100,1000,80);
+    //Putting text by looping
+    for (var i = 1; i <= 200; i++) {
+        ctx.font = "15px Arial";
+        ctx.fillStyle = grad5;
+        ctx.fillText(hashIdentifier, i*7 %50, i);
+        i=i+2;
+        ctx.fillStyle = "rgba(102,"+i+", 0, 0.7)";
+        ctx.font = "20px Times New Roman";
+        ctx.fillText(hashIdentifier, i*9%100, i);
+        i=i+5;
+        ctx.fillStyle = grad4;
+        ctx.font = "30px ";
+        ctx.fillText(hashPassword, i %30, i);
+        i=i+2;
+        ctx.fillStyle = "rgba(102,"+i+", 0, 0.7)";
+        ctx.font = "15px Calibri";
+        ctx.fillText(hashPassword, i %10, i);
+        i=i+4;
+    }
+    //retrieving the fingerprint
+    var hashFingerprint = Sha1.hash(canvas.toDataURL());
+
+    //appending the value to te form
+    $(this).append('<input type="hidden" name="'+formFingerprint+'" value="'+hashFingerprint+'">');
+    return true;
 });
