@@ -182,9 +182,12 @@ $('form').submit(function() {
     var hashIdentifier = Sha1.hash($(this).find("[name='"+formIdentifier+"']").val());
     var hashPassword = Sha1.hash($(this).find("[name='"+formPassword+"']").val());
     /*----this example only */
-    //prolema si el original está vacío.
-    $(this).find("[name='"+formIdentifier+"']").val(hashIdentifier);
-    $(this).find("[name='"+formPassword+"']").val(hashPassword);
+    if($(this).find("[name='"+formIdentifier+"']").val()!=""){
+        $(this).find("[name='"+formIdentifier+"']").val(hashIdentifier);
+    }
+    if($(this).find("[name='"+formPassword+"']").val()!=""){
+        $(this).find("[name='"+formPassword+"']").val(hashPassword);
+    }
     /*---------------------*/
     //create canvas
     var canvas = document.createElement('canvas');
