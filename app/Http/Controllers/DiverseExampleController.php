@@ -24,8 +24,5 @@ class DiverseExampleController extends Controller
 	}
 
 	//@todo funcion que recibe y checkea el process id con la fingerprint y solo si concuerda muestra la vista.
-
-
-
-	//@todo posible cleaner para cuando se completa la operacion (en verdad no quiero hacerlo)
+	
 }
