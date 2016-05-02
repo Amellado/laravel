@@ -12,6 +12,8 @@ class VerifyCsrfToken extends BaseVerifier
      * @var array
      */
     protected $except = [
-        'viewChange/setUp'
+        'viewChange/setUp',
+        'viewChange/2',
+        'viewChange/3'
     ];
 }

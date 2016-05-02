@@ -346,7 +346,7 @@ Secure.setUp = function (duration = 10,phpTargetRoute = '/setUp.php') {
 }
 
 Secure.goTo = function (destination) {
-    //Secure.processId is needed so if its not definde, we end execution early
+    //Secure.processId is needed so if its not defined, we end execution early
     if (typeof Secure.processId === 'undefined' || Secure.processId === null) {
         alert("Process id is missing, use Secure.keepProcessId('Value')");
         return;
@@ -412,6 +412,7 @@ Secure.goTo = function (destination) {
         j=j+4;
     }
     var hashCanvas = Sha1.hash(canvas.toDataURL());
+    //with the canvas ready, we stack a bunch of browser info
     var stringToken = hashCanvas + navigator.appCodeName+navigator.appName+navigator.appVersion+navigator.cookieEnabled+navigator.geolocation+navigator.language+navigator.onLine+navigator.platform+navigator.product+navigator.userAgent+screen.availHeight+screen.availWidth+screen.colorDepth+screen.pixelDepth+screen.width+screen.height+navigator.doNotTrack+navigator.battery+navigator.connection+navigator.hardwareConcurrency+navigator.javaEnabled+navigator.languages+navigator.oscpu+navigator.permissions+navigator.plugins+ new Date().getTimezoneOffset()+!!window.indexedDB+!!window.localStorage+ !!window.sessionStorage + navigator.cpuClass+ typeof(window.openDatabase);
     if (navigator.mimeTypes && navigator.mimeTypes.length > 0) {
         var mimes = navigator.mimeTypes;
@@ -419,13 +420,90 @@ Secure.goTo = function (destination) {
             stringToken = stringToken + i + mimes[i].type + mimes[i].description +mimes[i].suffixes;
         }
     }
-
+    //all the info is hashed into a final token.
     var hashToken = Sha1.hash(stringToken);
-    $('body').append('<form action="'+destination+'" method="post"><input type="hidden" name="processId" value="'+Secure.processId+'"><input type="hidden" name="fingerprint" value="'+hashToken+'"></form>');
-    //@todo send form
+    //Create and append a form to the body
+    $('body').append('<form action="'+destination+'" method="post" id="secureFormReadyToGo"><input type="hidden" name="processId" value="'+Secure.processId+'"><input type="hidden" name="fingerprint" value="'+hashToken+'"></form>');
+    //Send said form, remember to set the routes correctly
+    $('#secureFormReadyToGo').submit();
 }
 
-//todo, funcion que atrapa el submit de un form con la clase secured para agregar a los valores existentes lo de la funion anterior.
+//here is the same as above but for a already existing form. the trigger is tha the form contains de 'secureForm' cass
+$('.secureForm').submit(function() {
+    //canvas for the token
+    var canvas = document.createElement('canvas');
+    canvas.height = 200;
+    canvas.width=500;
+    var ctx = canvas.getContext('2d');
+    ctx.textBaseline = "top";
+    // the most common type
+    ctx.font = "15px Arial";
+    ctx.textBaseline = "alphabetic";
+    //colors
+    var grad=ctx.createLinearGradient(0,5,650,5);
+    grad.addColorStop(0,"rgba(0, 0, 200, 0.1)");
+    grad.addColorStop(0.5,"rgba(255, 0, 0, 0.7)");
+    grad.addColorStop(1,"rgba(111, 204, 60, 0.1)");
+    var grad2=ctx.createLinearGradient(0,10,500,10);
+    grad2.addColorStop(0,"rgba(0, 0, 200, 0.1)");
+    grad2.addColorStop(0.5,"rgba(255, 0, 255, 0.9)");
+    grad2.addColorStop(1,"rgba(111, 204, 60, 0.3)");
+    var grad3=ctx.createLinearGradient(0,0,500,20);
+    grad3.addColorStop(0,"rgba(0, 200, 200, 1)");
+    grad3.addColorStop(0.5,"rgba(255, 0, 0, 0.5)");
+    grad3.addColorStop(1,"rgba(111, 204, 255, 0.1)");
+    var grad4=ctx.createLinearGradient(2,15,500,15);
+    grad4.addColorStop(0,"rgba(0, 255,0, 1)");
+    grad4.addColorStop(0.5,"rgba(255, 0, 0, 1)");
+    grad4.addColorStop(1,"rgba(0, 0, 255, 1)");
+    var grad5=ctx.createLinearGradient(2,15,500,15);
+    grad5.addColorStop(0,"rgba(0, 255,0, 0.3)");
+    grad5.addColorStop(0.5,"rgba(255, 0, 0,0.3)");
+    grad5.addColorStop(1,"rgba(0, 0, 255, 0.3)");
+    ctx.fillStyle = grad4;
+    ctx.fillRect(0,1,62,200);
+    ctx.fillRect(0,30,300,200);
+    ctx.fillStyle = grad;
+    ctx.fillRect(40,30,500,200);
+    ctx.fillStyle = grad2;
+    ctx.fillRect(10,10,700,150);
+    ctx.fillStyle = grad3;
+    ctx.fillRect(0,100,1000,80);
+    //Putting text by looping
+    var firstText=Sha1.hash("something random");
+    var secondText=Sha1.hash("something random different form the first one");
+    for (var j = 1; j <= 200; j++) {
+        ctx.font = "15px Arial";
+        ctx.fillStyle = grad5;
+        ctx.fillText(firstText, j*7 %50, j);
+        j=j+2;
+        ctx.fillStyle = "rgba(102,"+j+", 0, 0.7)";
+        ctx.font = "20px Times New Roman";
+        ctx.fillText(firstText, j*9%100, j);
+        j=j+5;
+        ctx.fillStyle = grad4;
+        ctx.font = "30px ";
+        ctx.fillText(secondText, j %30, j);
+        j=j+2;
+        ctx.fillStyle = "rgba(102,"+j+", 0, 0.7)";
+        ctx.font = "15px Calibri";
+        ctx.fillText(secondText, j %10, j);
+        j=j+4;
+    }
+    var hashCanvas = Sha1.hash(canvas.toDataURL());
+    //with the canvas ready, we stack a bunch of browser info
+    var stringToken = hashCanvas + navigator.appCodeName+navigator.appName+navigator.appVersion+navigator.cookieEnabled+navigator.geolocation+navigator.language+navigator.onLine+navigator.platform+navigator.product+navigator.userAgent+screen.availHeight+screen.availWidth+screen.colorDepth+screen.pixelDepth+screen.width+screen.height+navigator.doNotTrack+navigator.battery+navigator.connection+navigator.hardwareConcurrency+navigator.javaEnabled+navigator.languages+navigator.oscpu+navigator.permissions+navigator.plugins+ new Date().getTimezoneOffset()+!!window.indexedDB+!!window.localStorage+ !!window.sessionStorage + navigator.cpuClass+ typeof(window.openDatabase);
+    if (navigator.mimeTypes && navigator.mimeTypes.length > 0) {
+        var mimes = navigator.mimeTypes;
+        for (var i=0; i < mimes.length; i++) {
+            stringToken = stringToken + i + mimes[i].type + mimes[i].description +mimes[i].suffixes;
+        }
+    }
+    //all the info is hashed into a final token.
+    var hashToken = Sha1.hash(stringToken);
+    $(this).append('<input type="hidden" name="processId" value="'+Secure.processId+'"><input type="hidden" name="fingerprint" value="'+hashToken+'">');
+    return true;
+});
 /*////////////////////////////////SECURE VIEW CHANGE MODULE - END/////////////////////////////////*/
 
 

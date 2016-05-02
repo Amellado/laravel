@@ -23,6 +23,23 @@ class DiverseExampleController extends Controller
 		return $secure->processId;
 	}
 
-	//@todo funcion que recibe y checkea el process id con la fingerprint y solo si concuerda muestra la vista.
+	public function secondView(){
+		$input = Request::all();
+		$secure = Secure::where('clientPrint',$input['fingerprint'])->where('validUntil','>=',Carbon::now()->toDateTimeString())->where('processId',$input['processId'])->get();
+		if($secure->isEmpty()){
+			return view('viewChange.failed');
+		}else{
+			return view('viewChange.second')->with('processId',$input['processId']);
+		}
+	}
+	public function thirdView(){
+		$input = Request::all();
+		$secure = Secure::where('clientPrint',$input['fingerprint'])->where('validUntil','>=',Carbon::now()->toDateTimeString())->where('processId',$input['processId'])->get();
+		if($secure->isEmpty()){
+			return view('viewChange.failed');
+		}else{
+			return view('viewChange.third')->with('processId',$input['processId']);
+		}
+	}
 	
 }

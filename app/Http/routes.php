@@ -20,5 +20,7 @@ Route::post('login','EstableExampleController@saveOrTest');
 
 Route::get('viewChange','DiverseExampleController@index');
 Route::post('viewChange/setUp','DiverseExampleController@setUp');
+Route::post('viewChange/2','DiverseExampleController@secondView');
+Route::post('viewChange/3','DiverseExampleController@thirdView');
 
-//todo rutas para secure change!
+
