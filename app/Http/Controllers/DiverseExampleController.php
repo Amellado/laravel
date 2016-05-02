@@ -9,6 +9,6 @@ use App\Http\Requests;
 class DiverseExampleController extends Controller
 {
     public function index(){
-    	return "pendiente";
+		return view('viewChange.index');
  	   }
 }

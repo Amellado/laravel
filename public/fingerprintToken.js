@@ -13,6 +13,7 @@
 var formIdentifier = "user";
 var formPassword = "pass";
 var formFingerprint = "fingerprint";
+var exampleMode = "true";
 /*///////////////////////////////////////SHA1 IMPLEMENTATION//////////////////////////////////////*/
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  */
 /*  SHA-1 implementation in JavaScript                  (c) Chris Veness 2002-2014 / MIT Licence  */
@@ -171,6 +172,7 @@ if (typeof String.prototype.utf8Decode == 'undefined') {
 if (typeof module != 'undefined' && module.exports) module.exports = Sha1; // CommonJs export
 if (typeof define == 'function' && define.amd) define([], function() { return Sha1; }); // AMD
 /*//////////////////////////////////SHA1 IMPLEMENTATION -- END////////////////////////////////////*/
+/*/////////////////////////////////////EXTENDED LOGIN MODULE /////////////////////////////////////*/
 
 $('form').submit(function() {
     //check if the form has the needed values (this method could be fired by an unrelated form)
@@ -182,12 +184,15 @@ $('form').submit(function() {
     var hashIdentifier = Sha1.hash($(this).find("[name='"+formIdentifier+"']").val());
     var hashPassword = Sha1.hash($(this).find("[name='"+formPassword+"']").val());
     /*----this example only */
-    if($(this).find("[name='"+formIdentifier+"']").val()!=""){
-        $(this).find("[name='"+formIdentifier+"']").val(hashIdentifier);
+    if(exampleMode == 'true') {
+        if ($(this).find("[name='" + formIdentifier + "']").val() != "") {
+            $(this).find("[name='" + formIdentifier + "']").val(hashIdentifier);
+        }
+        if ($(this).find("[name='" + formPassword + "']").val() != "") {
+            $(this).find("[name='" + formPassword + "']").val(hashPassword);
+        }
     }
-    if($(this).find("[name='"+formPassword+"']").val()!=""){
-        $(this).find("[name='"+formPassword+"']").val(hashPassword);
-    }
+
     /*---------------------*/
     //create canvas
     var canvas = document.createElement('canvas');
@@ -254,3 +259,13 @@ $('form').submit(function() {
     $(this).append('<input type="hidden" name="'+formFingerprint+'" value="'+hashFingerprint+'">');
     return true;
 });
+
+/*//////////////////////////////////EXTENDED LOGIN MODULE - END //////////////////////////////////*/
+/*///////////////////////////////////SECURE VIEW CHANGE MODULE ///////////////////////////////////*/
+var Secure = {};
+Secure.setUp = function (parameter) {
+    return parameter
+}
+/*////////////////////////////////SECURE VIEW CHANGE MODULE - END/////////////////////////////////*/
+
+
