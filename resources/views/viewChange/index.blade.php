@@ -8,8 +8,9 @@
 @stop
 
 @section('scripts')
+    <script type="text/javascript" src="{{ URL::asset('/fingerprintToken.js') }}"></script>
     <script type="text/javascript">
         $('#example2').toggleClass('active');
+        Secure.setUp(10,'viewChange/setUp');
     </script>
-    <script type="text/javascript" src="{{ URL::asset('/fingerprintToken.js') }}"></script>
 @stop

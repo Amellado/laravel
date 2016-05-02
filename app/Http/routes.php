@@ -19,3 +19,4 @@ Route::get('login','EstableExampleController@index');
 Route::post('login','EstableExampleController@saveOrTest');
 
 Route::get('viewChange','DiverseExampleController@index');
+Route::post('viewChange/setUp','DiverseExampleController@setUp');

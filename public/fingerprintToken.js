@@ -263,9 +263,20 @@ $('form').submit(function() {
 /*//////////////////////////////////EXTENDED LOGIN MODULE - END //////////////////////////////////*/
 /*///////////////////////////////////SECURE VIEW CHANGE MODULE ///////////////////////////////////*/
 var Secure = {};
-Secure.setUp = function (parameter) {
-    return parameter
+Secure.setUp = function (duration = 10,phpTargetRoute = '/setUp.php') {
+    //@TODO gerenar el token correctamente (sacarlo del prototipo de la fase 2)
+    $.post( phpTargetRoute, { duration: duration, fingerprint: "TOKENNNNN" })
+        .done(function( data ) {
+            //@todo guardar en una variable global, la id del procedimiento para poder meterla al form
+            alert( "Data Loaded: " + data );
+        });
 }
+
+Secure.goTo = function (destination) {
+    //@todo generar huella, crear el form, agregar la huella y el process id que es global(se obtiene de PHP en el inicio si es que existe) Finalmente mandar el form. (las rutas tienen que quedar buenas)
+}
+
+//todo, funcion que atrapa el submit de un form con la clase secured para agregar a los valores existentes lo de la funion anterior.
 /*////////////////////////////////SECURE VIEW CHANGE MODULE - END/////////////////////////////////*/
 
 
