@@ -25,21 +25,30 @@ class DiverseExampleController extends Controller
 
 	public function secondView(){
 		$input = Request::all();
-		$secure = Secure::where('clientPrint',$input['fingerprint'])->where('validUntil','>=',Carbon::now()->toDateTimeString())->where('processId',$input['processId'])->get();
-		if($secure->isEmpty()){
-			return view('viewChange.failed');
+		if(isset($input['fingerprint']) && isset($input['processId'])){
+			$secure = Secure::where('clientPrint',$input['fingerprint'])->where('validUntil','>=',Carbon::now()->toDateTimeString())->where('processId',$input['processId'])->get();
+			if($secure->isEmpty() ){
+				return view('viewChange.failed');
+			}else{
+				return view('viewChange.second')->with('processId',$input['processId']);
+			}
 		}else{
-			return view('viewChange.second')->with('processId',$input['processId']);
+			return view('viewChange.failed');
 		}
 	}
 	public function thirdView(){
 		$input = Request::all();
-		$secure = Secure::where('clientPrint',$input['fingerprint'])->where('validUntil','>=',Carbon::now()->toDateTimeString())->where('processId',$input['processId'])->get();
-		if($secure->isEmpty()){
-			return view('viewChange.failed');
+		if(isset($input['fingerprint']) && isset($input['processId'])) {
+			$secure = Secure::where('clientPrint', $input['fingerprint'])->where('validUntil', '>=', Carbon::now()->toDateTimeString())->where('processId', $input['processId'])->get();
+			if ($secure->isEmpty()) {
+				return view('viewChange.failed');
+			} else {
+				return view('viewChange.third')->with('processId', $input['processId']);
+			}
 		}else{
-			return view('viewChange.third')->with('processId',$input['processId']);
+			return view('viewChange.failed');
 		}
+
 	}
 	
 }

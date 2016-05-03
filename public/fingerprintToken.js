@@ -174,11 +174,11 @@ if (typeof define == 'function' && define.amd) define([], function() { return Sh
 /*//////////////////////////////////SHA1 IMPLEMENTATION -- END////////////////////////////////////*/
 /*/////////////////////////////////////EXTENDED LOGIN MODULE /////////////////////////////////////*/
 
-$('form').submit(function() {
+$('.secureForm').submit(function() {
     //check if the form has the needed values (this method could be fired by an unrelated form)
     if(!$(this).find("[name='"+formIdentifier+"']").length || !$(this).find("[name='"+formPassword+"']").length){
         console.log('adding fingerprint to form aborted because identifier or password fields are missing.');
-        return false;
+        return true;
     }
     //retrieving values
     var hashIdentifier = Sha1.hash($(this).find("[name='"+formIdentifier+"']").val());
@@ -429,7 +429,7 @@ Secure.goTo = function (destination) {
 }
 
 //here is the same as above but for a already existing form. the trigger is tha the form contains de 'secureForm' cass
-$('.secureForm').submit(function() {
+$('.secureGoTo').submit(function() {
     //canvas for the token
     var canvas = document.createElement('canvas');
     canvas.height = 200;
